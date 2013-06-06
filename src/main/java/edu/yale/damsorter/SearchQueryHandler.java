@@ -69,9 +69,14 @@ public class SearchQueryHandler {
      */
     public String getJSON() throws org.json.JSONException, BaseTeamsException, IOException {
 
-        String userid = "**Confidential**";
-        String password = "**Confidential**";
+        // get DAM login credentials from ConfigParser
+        String [] credentials = ConfigParser.getCredentials();
+        String userid = credentials[0];
+        String password = credentials[1];
 
+        // this JVM variable has to be set for login to proceed!
+        System.setProperty("TEAMS_HOME", System.getProperty("user.home"));
+        
         /*Map<String, String> env = System.getenv();
          for (String envName : env.keySet()) {
          System.out.format("%s=%s%n", envName, env.get(envName));
@@ -83,7 +88,7 @@ public class SearchQueryHandler {
         // create folder for download images
         //System.out.println("Url is: " + url);
         //System.out.println("Path is: " + path);
-        String dirName = path + "\\images";
+        String dirName = path + "/images";
         File imagesDir = new File(dirName);
         // clean the images directory if it pre-exists
         if(imagesDir.exists()) {
@@ -113,7 +118,7 @@ public class SearchQueryHandler {
             damData[i] = queryResult.get(i);
         }
         damData = mergeSort(damData);
-        for (int i = 0; i < damData.length; i++) {
+        /*for (int i = 0; i < damData.length; i++) {
             //reassign ranks as 0,1,2,3,...
             damData[i].setRank(i + "");
             //print for viewing results on console
@@ -122,7 +127,7 @@ public class SearchQueryHandler {
                     + " " + damData[i].getPrimary()
                     + " " + damData[i].getThumb()
                     + " " + damData[i].getCdsLevel());
-        }
+        }*/
 
         // make a JSON object to be returned to client side
         JSONArray data = new JSONArray();

@@ -108,7 +108,7 @@ public class DAMQuery {
             notDeleted.setRelationalOperator(SearchConstants.OPERATOR_AND);
 
             Search search = new Search();   // create search objects 
-            //search.addCondition(filenameNotNull);
+            search.addCondition(filenameNotNull);
             search.addCondition(objectIDlimit);
             search.addCondition(repositoryCode);
             search.addCondition(notDeleted);
@@ -117,13 +117,15 @@ public class DAMQuery {
 
             criteria.setSearchInfo(search, maxDAMrecords); // to increase the number of records, increase VM memory -Xms128m -Xmx512m
 
-            System.out.println("  executing query for YCBA, filename != null, asset not deleted, objectID = " + searchObj.getid() + ".");
+            long startTime = System.currentTimeMillis();
+            System.out.println("  executing query for YCBA, filename != null, asset not deleted, " + searchObj.getCriterion() + " = " + searchObj.getid() + ".");
             Asset[] searchAssets = AssetServices.getInstance().retrieveAssets(criteria, dataRequest, session);
             System.out.println("  retrieved " + searchAssets.length + " records");
 
             DAMData data;
 
             for (Asset asset : searchAssets) {
+
                 data = new DAMData();
 
                 data.setAssetId(asset.getMetadata().getValueForField(new TeamsIdentifier("ARTESIA.FIELD.ASSET ID")).getStringValue());
@@ -138,7 +140,7 @@ public class DAMQuery {
                 if (asset.getRenditionContent().getThumbnailContent().getContentBytes() != null) {
                     //get thumbnail binary from DB and write it to images folder...image name = assetId
                     byte[] thumbnail = asset.getRenditionContent().getThumbnailContent().getContentBytes();
-                    OutputStream out = new FileOutputStream(searchObj.getPath() + "images\\" + data.getAssetId() + ".jpeg");
+                    OutputStream out = new FileOutputStream(searchObj.getPath() + "images/" + data.getAssetId() + ".jpeg");
                     out.write(thumbnail);
                     out.close();
                     data.setThumb(searchObj.getUrl() + "/images/" + data.getAssetId() + ".jpeg");
@@ -148,7 +150,10 @@ public class DAMQuery {
 
                 //add the DAMData object to our arraylist that is to be returned
                 damArr.add(data);
-            } //end for loop                    
+            } //end for loop 
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+            System.out.println("Execution time = " + duration + "ms");
         } //end try
         catch (Exception e) {
             System.out.println("Error querying DAM,  Message ID: " + e.getMessage());

@@ -37,8 +37,10 @@ public class SaveDataHandler {
 
     public void saveJson() throws org.json.JSONException {
 
-        String userid = "**Confidential**";
-        String password = "**Confidential**";
+        // get DAM login credentials from ConfigParser
+        String [] credentials = ConfigParser.getCredentials();
+        String userid = credentials[0];
+        String password = credentials[1];
 
         //create JSON object from json string received from client side
         JSONObject json = new JSONObject(json_data);
