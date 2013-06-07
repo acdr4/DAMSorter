@@ -48,6 +48,9 @@ public class DAMQuery {
         ArrayList<DAMData> damArr = new ArrayList<DAMData>();
 
         try {
+            
+            long startTime = System.currentTimeMillis();
+            
             AssetDataLoadRequest dataRequest = new AssetDataLoadRequest();
             dataRequest.setLoadMetadata(true);
             dataRequest.setLoadPreviewBytes(true);
@@ -117,7 +120,6 @@ public class DAMQuery {
 
             criteria.setSearchInfo(search, maxDAMrecords); // to increase the number of records, increase VM memory -Xms128m -Xmx512m
 
-            long startTime = System.currentTimeMillis();
             System.out.println("  executing query for YCBA, filename != null, asset not deleted, " + searchObj.getCriterion() + " = " + searchObj.getid() + ".");
             Asset[] searchAssets = AssetServices.getInstance().retrieveAssets(criteria, dataRequest, session);
             System.out.println("  retrieved " + searchAssets.length + " records");
@@ -153,7 +155,7 @@ public class DAMQuery {
             } //end for loop 
             long endTime = System.currentTimeMillis();
             long duration = endTime - startTime;
-            System.out.println("Execution time = " + duration + "ms");
+            System.out.println("Query execution time = " + duration + "ms");
         } //end try
         catch (Exception e) {
             System.out.println("Error querying DAM,  Message ID: " + e.getMessage());

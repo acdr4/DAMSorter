@@ -16,10 +16,11 @@
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
         <style>
             #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; height: 100%;}
-            #sortable li { margin: 3px 3px 3px 0; padding: 1px; float: left; width: 128px; height: 100%; font-weight: bold; font-size: 1em; text-align: left; }
+            #sortable li { display: block; margin: 3px 3px 3px 0; padding: 1px; float: left; width: 128px; height: 200px; font-weight: bold; font-size: 1em; text-align: left; }
             #transbox { background-color:#ffffff; color:#000; width:20px; border:1px solid black; opacity:0.4; filter:alpha(opacity=40); } 
             img {max-width:128px;max-height:128px;}
             #saveData {max-height:100%; display: inline;}
+            #busy_icon {position: absolute; left: 45%; top: 48%;}
         </style>
 
         <!--create a useBean session that will fetch JSON for the searched object -->
@@ -50,6 +51,18 @@
                 });
                 $( "#sortable" ).disableSelection();
             });
+            
+            // for a busy icon during ajax requests
+            /* $.ajaxSetup({
+                beforeSend:function(){
+                    // show image here
+                    $("#busy_icon").show();
+                },
+                complete:function(){
+                    // hide image here
+                    $("#busy_icon").hide();
+                }
+            });*/
             
             //extends native Array prototype to enable removal of all instances of param deleteValue from array object
             Array.prototype.clean = function(deleteValue)
@@ -121,6 +134,26 @@
                 alert(temp);
             }
             
+            // executed when search button is clicked...
+            // posts form data (search_by and search_id) to search.jsp
+            /*function postSearch()
+            {
+                alert($('#getData').serialize());
+                $("#busy_icon").show();
+                $.ajax({
+                    url: "search.jsp",
+                    method: "POST",
+                    data: $('#getData').serialize(),
+                    success: function(){
+                        $("#busy_icon").hide();
+                    },
+                    error: function() {
+                        $("#busy_icon").hide();
+                        alert("ERROR: Failed to search DAM.");
+                    }
+                });
+            }*/
+            
             //executed when save button is clicked...posts recordsObj to save.jsp
             function postJson()
             {
@@ -128,18 +161,32 @@
                 var check = confirm("Changes will be written to DAM. Press OK to proceed.");
                 if (check == true)
                 {
+                    $("#busy_icon").show();
                     $.ajax({
                         url:    "save.jsp",
                         type:   "post",
                         data:   "json_data="+JSON.stringify(recordsObj),
                         success: function(){
+                            $("#busy_icon").hide();
                             alert("Changes successfully posted to DAM!");
                         },
                         error: function() {
+                            $("#busy_icon").hide();
                             alert("ERROR: Failed to write to DAM.");
                         }
                     });
                 }                
+            }
+            
+            // makes an options tag element with options including numbers form start to end (inclusive)
+            function makeCdsOptionsTag(start, end)
+            {
+                var tagString = "";
+                for(i = start; i <= end; i++)
+                {
+                    tagString += '<option value="'+ i +'">'+ i +'</option>';
+                }
+                return tagString;
             }
             
             //extract JSON data and display
@@ -150,6 +197,8 @@
                     search_by = "Orbis Bib ID = "
                 else
                     search_by = "TMS Object ID = "
+                // specify range of CDS level here!
+                var cdsOptionsTag = makeCdsOptionsTag(1,18);
                 //parse JSON only if it's not empty
                 if (recordsObj.recordsArr.length > 0)
                 {
@@ -171,8 +220,8 @@
                             'onClick = setPrimary('+i+')>primary</div>'+
                             'CDS Level:<select id="cds_level'+i+
                             '" onchange = setCDSLevel('+i+')>'+
-                            '<option value="11">11</option>'+
-                            '<option value="12">12</option></select></li>');
+                            cdsOptionsTag +
+                            '</select></li>');
                         //set the appropriate default cds level
                         $('#cds_level'+i).val(recordsObj.recordsArr[i].cdsLevel);
                         //initialize positions array with default ranks i.e 0,1,2,3...
@@ -192,6 +241,12 @@
                 }
             }
             
+            // for displaying the busy gif when search button is clicked
+            function showBusy()
+            {
+                $("#busy_icon").show();
+            }
+            
             /* onload function executed when window is loaded for the first time */
             /*window.onload = function(){*/
 
@@ -202,6 +257,10 @@
         <p>Search id = <!--jsp:getProperty name="searchbean" property="search_id" /></p>
         <p>JSON Object = <!--jsp:getProperty name="searchbean" property="JSON" /></p-->        
 
+        <div id="busy_icon" class="busy_icon" style="display:none">
+            <img src="./icons/ajax-loader-circle.gif"/>
+        </div>
+
         <form id="getData" action="search.jsp" method="POST">
             Search for an object: 
             <select name="search_by">
@@ -210,7 +269,7 @@
             </select>
             # <input type="text" name="search_id"/>            
             <!-- <input type="button" value="Search" onclick="getImagesJSON()"></input> -->
-            <input type="submit" value="Search"></input>
+            <input type="submit" value="Search" onclick="showBusy()"></input>
         </form>
 
         <p id="caption" />

@@ -117,7 +117,7 @@ public class SearchQueryHandler {
         for (int i = 0; i < queryResult.size(); i++) {
             damData[i] = queryResult.get(i);
         }
-        damData = mergeSort(damData);
+        //damData = mergeSort(damData);
         /*for (int i = 0; i < damData.length; i++) {
             //reassign ranks as 0,1,2,3,...
             damData[i].setRank(i + "");

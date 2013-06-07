@@ -9,7 +9,23 @@
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
     </head>
 
+    <style>
+        #busy_icon {position: absolute; left: 45%; top: 48%;}
+    </style>
+    
+    <script>
+        // for displaying the busy gif when search button is clicked
+        function showBusy()
+        {
+            $("#busy_icon").show();
+        }
+    </script>
+
     <body>
+        
+        <div id="busy_icon" class="busy_icon" style="display:none">
+            <img src="./icons/ajax-loader-circle.gif"/>
+        </div>
 
         <form id="getData" action="search.jsp" method="POST">
             Search for an object: 
@@ -19,7 +35,7 @@
             </select>
             # <input type="text" name="search_id"/>            
             <!-- <input type="button" value="Search" onclick="getImagesJSON()"></input> -->
-            <input type="submit" value="Search"></input>
+            <input type="submit" value="Search" onclick="showBusy()"></input>
         </form>
     </body>
 </html>
