@@ -53,13 +53,8 @@ public class DAMQuery {
             
             AssetDataLoadRequest dataRequest = new AssetDataLoadRequest();
             dataRequest.setLoadMetadata(true);
-            dataRequest.setLoadPreviewBytes(true);
-            dataRequest.setLoadPreviewAndSynopsisInfo(true);
             dataRequest.setLoadThumbnailBytes(true);
             dataRequest.setLoadThumbnailAndKeywords(true, true);
-            dataRequest.setLoadThumbnailAndKeywordInfo(true);
-            dataRequest.setLoadSecurityPolicies(true);
-            dataRequest.setLoadThumbnailUrl(true);
 
             TeamsIdentifier[] fieldIds = new TeamsIdentifier[]{ // -- DAM 6.8 --	-- MySQL --
                 new TeamsIdentifier("ARTESIA.FIELD.ASSET ID"), // char (40)		varchar (45)

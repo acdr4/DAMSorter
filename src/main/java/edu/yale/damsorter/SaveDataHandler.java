@@ -38,7 +38,7 @@ public class SaveDataHandler {
     public void saveJson() throws org.json.JSONException {
 
         // get DAM login credentials from ConfigParser
-        String [] credentials = ConfigParser.getCredentials();
+        String[] credentials = ConfigParser.getCredentials();
         String userid = credentials[0];
         String password = credentials[1];
 
@@ -53,6 +53,8 @@ public class SaveDataHandler {
         SecuritySession session = SessionHandler.login(userid, password);
 
         System.out.println("Saving to DAM...");
+        long startTime = System.currentTimeMillis();
+
         for (int i = 0; i < jsonArr.length(); i++) {
             JSONObject record = jsonArr.getJSONObject(i);
             //make a SaveParams object for compactness of data to write to DAM
@@ -70,19 +72,23 @@ public class SaveDataHandler {
             dw.writeData(session, saveObj);
         }
         System.out.println("Saving data completed!");
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime;
+        System.out.println("Time to save data = " + duration + "ms");
 
-        System.out.print("Primary index at " + primaryIdx);
-        System.out.print(".. rank = ");
-        for (int i = 0; i < jsonArr.length(); i++) {
-            JSONObject record = jsonArr.getJSONObject(i);
-            System.out.print(record.getString("rank") + ", ");
-        }
-        System.out.print(".. cds level = ");
-        for (int i = 0; i < jsonArr.length(); i++) {
-            JSONObject record = jsonArr.getJSONObject(i);
-            System.out.print(record.getString("cdsLevel") + ", ");
-        }
-        System.out.println();
+        /*System.out.print("Primary index at " + primaryIdx);
+         System.out.print(".. rank = ");
+         for (int i = 0; i < jsonArr.length(); i++) {
+         JSONObject record = jsonArr.getJSONObject(i);
+         System.out.print(record.getString("rank") + ", ");
+         }
+         System.out.print(".. cds level = ");
+         for (int i = 0; i < jsonArr.length(); i++) {
+         JSONObject record = jsonArr.getJSONObject(i);
+         System.out.print(record.getString("cdsLevel") + ", ");
+         }
+         System.out.println();
+         */
 
         // logout from DAM before returning
         SessionHandler.logout(session);

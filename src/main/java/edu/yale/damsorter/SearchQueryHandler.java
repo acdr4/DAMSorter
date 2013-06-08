@@ -116,8 +116,11 @@ public class SearchQueryHandler {
         DAMData[] damData = new DAMData[queryResult.size()];
         for (int i = 0; i < queryResult.size(); i++) {
             damData[i] = queryResult.get(i);
+            if(damData[i].rank == null) {
+                damData[i].rank = i+"";
+            }
         }
-        //damData = mergeSort(damData);
+        damData = mergeSort(damData);
         /*for (int i = 0; i < damData.length; i++) {
             //reassign ranks as 0,1,2,3,...
             damData[i].setRank(i + "");
@@ -135,15 +138,19 @@ public class SearchQueryHandler {
         for (int i = 0; i < damData.length; i++) {
             JSONObject json = new JSONObject();
             json.put("id", damData[i].getAssetId());
-            json.put("rank", damData[i].getRank());
+            if(damData[i].rank == null) {
+                json.put("rank", "" + damData.length);
+            } else {
+                json.put("rank", damData[i].getRank());
+            }
             if (damData[i].getPrimary() != null && damData[i].getPrimary().equals("Y")) {
                 primaryIdx = i;
             }
             json.put("thumb", damData[i].getThumb());
 
             if (damData[i].cdsLevel == null) {
-                // default CDS level is 12 if it was null??
-                json.put("cdsLevel", new Integer(12));
+                // default CDS level is 0 if it was null??
+                json.put("cdsLevel", new Integer(0));
             } else {
                 json.put("cdsLevel", damData[i].getCdsLevel());
             }
@@ -155,6 +162,7 @@ public class SearchQueryHandler {
         finalJson.put("search_by",search_by);
         finalJson.put("search_id",search_id);
         finalJson.put("recordsArr", data);
+        //System.out.println(finalJson.toString());
 
         // logout from DAM before returning
         SessionHandler.logout(session);

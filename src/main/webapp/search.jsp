@@ -20,7 +20,7 @@
             #transbox { background-color:#ffffff; color:#000; width:20px; border:1px solid black; opacity:0.4; filter:alpha(opacity=40); } 
             img {max-width:128px;max-height:128px;}
             #saveData {max-height:100%; display: inline;}
-            #busy_icon {position: absolute; left: 45%; top: 48%;}
+            #busy_icon {position: absolute; left: 45%; bottom: 52%;}
         </style>
 
         <!--create a useBean session that will fetch JSON for the searched object -->
@@ -198,7 +198,7 @@
                 else
                     search_by = "TMS Object ID = "
                 // specify range of CDS level here!
-                var cdsOptionsTag = makeCdsOptionsTag(1,18);
+                var cdsOptionsTag = makeCdsOptionsTag(0,18);
                 //parse JSON only if it's not empty
                 if (recordsObj.recordsArr.length > 0)
                 {
@@ -246,6 +246,11 @@
             {
                 $("#busy_icon").show();
             }
+            
+            // for dynamically changing the position of busy icon when scrolling
+            $(window).scroll(function() {
+                $('#busy_icon').css('top', $(window).scrollTop() + 'px')
+            });
             
             /* onload function executed when window is loaded for the first time */
             /*window.onload = function(){*/

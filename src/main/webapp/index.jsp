@@ -10,7 +10,7 @@
     </head>
 
     <style>
-        #busy_icon {position: absolute; left: 45%; top: 48%;}
+        #busy_icon {position: absolute; left: 45%; bottom: 52%;}
     </style>
     
     <script>
