@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="search.css"/>
     </head>
 
     <style>
@@ -33,7 +34,8 @@
                 <option value="bibid">Orbis Bib ID</option>
                 <option value="objectid">TMS Object ID</option>
             </select>
-            # <input type="text" name="search_id"/>            
+            # <input type="text" name="search_id"/>          
+            filename contains: <input type="text" name="pub_only" value="pub"/>
             <!-- <input type="button" value="Search" onclick="getImagesJSON()"></input> -->
             <input type="submit" value="Search" onclick="showBusy()"></input>
         </form>

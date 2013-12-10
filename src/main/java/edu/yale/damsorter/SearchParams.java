@@ -12,12 +12,14 @@ public class SearchParams {
     
     private String search_criterion;
     private String search_id;
+    private String pub_only;
     private String images_path;
     private String home_url;
     
-    public SearchParams(String s_by, String s_id, String i_path, String url) {
+    public SearchParams(String s_by, String s_id, String s_pub_only, String i_path, String url) {
         search_criterion = s_by;
         search_id = s_id;
+        pub_only = s_pub_only;
         images_path = i_path;
         home_url = url;
     }
@@ -28,6 +30,10 @@ public class SearchParams {
     
     public String getid() {
         return this.search_id;
+    }
+    
+    public String getPubOnly() {
+        return this.pub_only;
     }
     
     public String getPath() {

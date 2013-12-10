@@ -8,7 +8,10 @@
 <%@page import = "java.io.*" %>
 
 <jsp:useBean id="savebean" scope="session" class="edu.yale.damsorter.SaveDataHandler" />
-<jsp:setProperty name="savebean" property="json_data" />
+<%
+    String jdata = request.getParameter("json_data");
+%>
+<jsp:setProperty name="savebean" property="json_data" value="<%=jdata%>"/>
 
 <%
     savebean.saveJson();

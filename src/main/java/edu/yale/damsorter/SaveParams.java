@@ -14,6 +14,8 @@ public class SaveParams {
     private String rank;
     private String cdsLevel;
     private String isPrimary;
+    private String keywords;
+    private String descCaption;
     
     /* setters */
     public void setAssetId(String id) {
@@ -32,6 +34,14 @@ public class SaveParams {
         isPrimary = pri;
     }
     
+    public void setKeywords(String kwords) {
+        keywords = kwords;
+    }
+        
+    public void setDescCaption(String descC) {
+        descCaption = descC;
+    }
+    
     /* getters */
     public String getAssetId() {
         return this.assetId;
@@ -47,5 +57,13 @@ public class SaveParams {
     
     public String getIsPrimary() {
         return this.isPrimary;
+    }
+    
+    public String getKeywords() {
+        return this.keywords;
+    }
+        
+    public String getDescCaption() {
+        return this.descCaption;
     }
 }

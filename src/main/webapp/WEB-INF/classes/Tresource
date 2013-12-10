@@ -1,0 +1,755 @@
+[COMMON\SERVER]
+"DB_VERSION"="9"
+"DB_INST"="MM70DEV"
+"DB_DISPLAY_DATE_FMT"="MM/DD/YYYY"
+"JDK_DISPLAY_DATE_FMT"="MM/dd/yyyy"
+"BC_DATE_FMT"="yyyy"
+"WORKING_DIR"="/data/cs/working_area"
+"DB_TYPE"="SQLSERVER"
+"SERVER_MENUBAR_CACHE_SIZE"=DWORD:120
+"VALIDATE_POOLED_DB_CONN"="N"
+[NC]"TEAMS_DEBUG_LEVEL"=DWORD:0
+"VALIDATE_SESSION_EXISTS"="TRUE"
+[PUBLIC]"ADMIN_EMAIL_ADDRESS"="odai.help@yale.edu"
+[PUBLIC]"SESSION_TIMEOUT_IN_MINS"=DWORD:30
+[PUBLIC]"PROCESS_POLLING_INTERVAL_IN_SECS"=DWORD:30
+[PUBLIC]"PROCESS_LIST_RECORD_COUNT"=DWORD:20
+"EMAIL_SERVER"="mail.yale.edu"
+#
+# Password Validation Rules. You may restrict passwords
+# from being too small (MIN_LENGTH), too big (MAX_LENGTH),
+# to require a numeric character (REQD_POSITION is one of
+# first, last, or any), or specific words (DISALLOW_LIST
+# is a comma separated list).
+[PUBLIC]"PASSWD_MIN_LENGTH"=DWORD:3
+[PUBLIC]"PASSWD_MAX_LENGTH"=DWORD:10
+# the valid values for this entry are any, last, first.
+#[PUBLIC]"PASSWD_NUMERIC_REQD_POSITION"="any"
+[PUBLIC]"PASSWD_DISALLOW_LIST"="password,passwd,pass"
+
+[COMMON\CLIENT]
+"SUPPORTED_LOCALES"="en_US"
+"DEFAULT_LOCALE"="en_US"
+
+[COMMON\JDBC]
+# thick
+"JDBC_URL"="jdbc:sqlserver://MM7DB1:1433"
+#
+# thin
+#"URL"="jdbc:oracle:thin:"
+#"HOSTNAME"="server-oracle"
+#"PORT"="1521"
+
+[SECURITY\SERVER]
+[NC]"ALLOW_PREAUTHORIZED_USER_LOGIN"="N"
+[NC]"PREAUTHORIZED_USER_TRANSLATOR_CLASS"="com.artesia.security.session.DefaultUserTranslator"
+[NC]"ALLOW_EXTERNAL_AUTHENTICATION"="N"
+[NC]"EXTERNAL_AUTHENTICATION_CLASS"="com.artesia.security.session.DefaultExternalValidator"
+[NC]"ALLOW_FQSAUTHORIZED_USER_LOGIN"="N"
+[NC]"FQSAUTHORIZED_USER_TRANSLATOR_CLASS"="com.artesia.security.session.DefaultUserTranslator"
+[NC]"FQSAUTHORIZED_USERS"=""
+[NC]"ALLOW_REMOTE_USER_LOGIN"="N"
+[NC]"REMOTE_USER_TRANSLATOR_CLASS"="com.artesia.security.session.DefaultUserTranslator"
+[NC]"NO_SESSION_URL"=""
+
+[EVENT_LOGGING\SERVER]
+"EVENT_CONTEXT"="EVENT_CTXTS"
+[PUBLIC]"EMAIL_SERVER"="mail.yale.edu"
+"MONITOR_WINDOW"=DWORD:3600
+"NOTIFICATION_DIR"="/data/notification"
+
+[VOCABULARY\CLIENT]
+"DEFAULT_VOCAB_OP"=DWORD:1
+"WILDCARD"="NONE"
+
+[BPM\SERVER]
+# Specify the Default Import & Export Process ID's which are available in BPM Server
+# specify the concrete class name, by default the server connected to LL BPM
+# OpenText Concrete Class Name:="com.artesia.bpm.server.OpenTextBPMService"
+"BPM_CONCRETE_CLASS"="com.artesia.bpm.server.OpenTextBPMService"
+
+"DEFAULT_IMPORT"="Import"  
+"DEFAULT_CHECKIN"="Check In Asset"
+"DEFAULT_ATTACHCONTENT"="Attach Content"
+"DEFAULT_IMPORT_TIMEOUT"="7200000"
+"DEFAULT_EXPORT"="Export"
+"DEFAULT_EXPORT_TIMEOUT"="7200000" 
+# Specify the BPM_SERVER details for HA Configuration as 
+# BPM_SERVER="SERVER_NAME1:PORT,SERVER_NAME2:PORT"
+# Ex: BPM_SERVER="SERVER1:31100,SERVER2:31100"
+# We must specify BPM_SERVER_PORT as BPM_SERVER_PORT="" for HA setup. 
+"BPM_SERVER"="MM7EPS"
+"BPM_SERVER_PORT"="31099"
+# Specify the Media Manager load balancer URL for HA Setup
+"ARTESIA_WEBSERVICES_URL"="http://mm7ingest1.its.yale.edu:11090"
+"BPM_CONNECTION_FACTORY"="ConnectionFactory"
+"CLEANUP_TIMER_INTERVAL"=DWORD:3600
+"CLEANUP_TIMER_USER"="tsuper"
+"WEB_PROCESS_MANAGER_URL"="http://MM7EPS/bpmweb"
+#The configuration file for the processes available in MediaManager.
+"PROCESS_RULES_FILE"="${TEAMS_HOME}/data/config/BusinessProcessRules.xml"
+#If a process is not configured in the PROCESS_RULES_FILE should access be granted to the process?
+"SHOW_UNCONFIGURED_PROCESS"="N"
+"ACTIVE_NOTIFICATION_WORKQUEUE"="Inbox,Draft"
+"COMPLETED_NOTIFICATION_WORKQUEUE"="Sent"
+"DEFAULT_TRANSCODE"="Transcode Process"
+
+[BPM\SSO]
+"UMS_HOSTNAME"="MM7EPS"
+"UMS_PORT"="18080"
+"CLIENTELE"="defaultclientele"
+"DOMAIN"="MediaMgmt"
+"CERTIFICATE_USER"="certuser"
+"TOKEN_EXPIRY"="600"
+"UMS_TIME_ZONE"="GMT"
+"CRYPTO_FILENAME"="${TEAMS_HOME}/data/ums/crypto.properties"
+"CRYPTO_PASSWORD"="bpm"
+"CERTIFICATE_ALIAS"="sso"
+
+[TRANSCODE\SERVER]
+"ENABLE_PROXY_TRANSCODE"="false"
+"PROXY_QUEUE_MONITOR_TIMER_INTERVAL"=DWORD:900
+"PROXY_TRANSCODE_START_TIME"="00:00"
+"PROXY_TRANSCODE_END_TIME"="23:59"
+"KEEP_ORIGINAL_PROXY"="true"
+"PROXY_TRANSCODE_BATCH_SIZE"="1"
+"PROXY_TRANSCODE_USER"="tsuper"
+"PROXY_TRANSCODE_PASSWORD"="tsuper"
+"AUTOADD_TRANSCODE_QUEUE"="true"
+"PROXY_TRANSCODE_FROM_PROXY"="true"
+
+[SEARCH\SERVER]
+"FAVORITE_SEARCH_DISPLAY_LIMIT"="25"
+"DEFAULT_SEARCH_PLUGIN_ID"="ARTESIA.PLUGIN.SEARCH.DATABASE"
+"SEARCH_HISTORY_LOGGING_ENABLED"="N"
+"SEARCH_HISTORY_LOG_INTERNAL_SEARCHES"="N"
+"SEARCH_HISTORY_LOG_EXTERNAL_SEARCHES"="Y"
+"SEARCH_FILTERS_FILE"="${TEAMS_HOME}/data/search/filters.xml"
+"DEFAULT_MAX_HITS"=DWORD:1000
+
+[SEARCH\CLIENT]
+[PUBLIC]"USER_MAX_HITS"=DWORD:1000
+
+[PRODMGMT\CLIENT]
+#Asset id, name
+[NC]"METADATA_FIELDS"="1:1015,1016"
+[NC]"LINK_INFO"="0:ALL"
+
+[PRODMGMT\SERVER]
+"DIR_STRUCT"="flat"
+"PROJECT_EXPORT"="C:\mm70/data/product"
+
+[VIEW\ROWS_PER_ITEM]
+[NC]"TrackRows"=DWORD:20
+
+[WEB_APPLICATIONS\CONFIG]
+# Base web URL for Media Manager web applications. Do not include any web application name in the URL. 
+# For example, http://www.myco.com:11090
+[PUBLIC]"WEB_APPS_BASE_URL"="http://mm7ingest1.its.yale.edu:11090"
+
+#NOTE: These settings apply to the web client only
+[WEB\CONFIG]
+"VOCAB_OPTION"="Y"
+"COMMON"="com.artesiatech.servlet.common.Common"
+"WEB_CLIENT_APP_NAME"="teams"
+#Only set this value if the Media Manager web client is not co-located with
+#other web applications in the Media Manager application server (not typical)
+#"WEB_CLIENT_BASE_URL"=""
+#"MENU_XML_FILE"="/data/config/sample_menu.xml"
+
+# servlet classes
+"SRCH_SERVLET"="Search.do"
+"VOCAB_SERVLET"="Vocab.do"
+"SETS_SERVLET"="Sets.do"
+"LOGIN_SERVLET"="Login.do"
+"EXPORT_SERVLET"="Export.do"
+"DOWNLOAD_SERVLET"="Download.do"
+"IMPORT_SERVLET"="Import.do"
+"PERSONAL_SERVLET"="Personal.do"
+"BASKET_SERVLET"="Basket.do"
+"VIDEO_SERVLET"="Video.do"
+"VIEW_SERVLET"="View.do"
+"EDIT_SERVLET"="Edit.do"
+"POLICY_MEMBER_SERVLET"="PolicyMember.do"
+"LINK_SERVLET"="Link.do"
+"PDL_SERVLET"="PDL.do"
+"FEEDBACK_SERVLET"="Feedback.do"
+"DELETE_SERVLET"="Delete.do"
+"CEDIT_SERVLET"="Cedit.do"
+"ASSET_SERVLET"="Asset.do"
+"PLUG_IN_PLAYER_SERVLET"="Plugin.do"
+"BULK_EDIT_SERVLET"="BulkEdit.do"
+"IMPRT_PROP_SERVLET"="ImprtProperty.do"
+"INBOX_SERVLET"="Inbox.do"
+"PROJECT_SERVLET"="Project.do"
+"PARTICIPANT_SERVLET"="Participant.do"
+"COMMENT_SERVLET"="Comment.do"
+"TASK_SERVLET"="Task.do"
+"SUBSCRIPTION_SERVLET"="Subscription.do"
+"ADMIN_SERVLET"="Admin.do"
+"CACHE_SERVLET"="Cache.do"
+
+# Web resource paths
+"ROOT_PATH"="/teams"
+"SERVLET_PATH"=""
+"IMAGE_PATH"="/teams/images"
+"JSP_PATH"="/jsp/admin"
+"JS_PATH"="/teams/js"
+"HTML_PATH"="/teams/html"
+"HELP_PATH"="/teams/help"
+
+# Web admin resource paths
+"ADMIN_ROOT_PATH"="/teams"
+"ADMIN_SERVLET_PATH"=""
+"ADMIN_IMAGE_PATH"="/teams/images"
+"ADMIN_JSP_PATH"="/jsp"
+"ADMIN_JS_PATH"="/teams/js"
+"ADMIN_HTML_PATH"="/teams/html"
+"ADMIN_HELP_PATH"="/teams/help"
+
+# This number is in milliseconds
+"BUSY_PAGE_REFRESH_RATE"=DWORD:3000
+
+
+# Note : These Settings apply for web admin section.
+[WEB\ADMIN]
+#Number of Users to display in a single page in User Management Screen.
+"NUMBER_OF_USERS_TO_DISPLAY_PER_PAGE"=DWORD:25
+#Y or N values to allow tabular fields into folder type UI for all/one Level Inheritance. 
+#System will consider N by default<if no entry exists>.
+"ALLOW_TABULAR_FIELDS_INTO_FOLDER_TYPES"="N"
+
+[WEB\GENERAL]
+#Renditions not to purge
+#"CONTENT_KIND_NOT_TO_PURGE"="MASTER"; 
+
+"EXCLUDE_MODELS"="Basic Folder|Project|Participant|Threaded Comments|Footage|Interview"
+"EXCLUDE_LINK_TYPES"="PRJ-USR|USR-PRJ|PRJ-OWN|OWN-PRJ|PRJ-P2C|PRJ-C2P|PRJ-AST|AST-PRJ|PRJ-ACT|USR-AST|AST-COM|COM-AST"
+#Bug ID: 14776 - Get the modified  thumbnail  in Gallery view and image in popup
+"FORCE_ASSET_IMAGE_RELOAD"="FALSE"
+#Bug ID: 14744 - Use the following Keys to skip the transformer for a particular asset
+#To skip the transformer of a Master file, use the following syntax
+#"MASTER_TRANSFORMER_SKIP_LIST_<Mimetype_ID>"="<Transformer_ID_1>,<Transformer_ID_2>,<Transformer_ID_3>" where 
+#<Mimetype_ID> must match with the entry in MIME_TYPES.ID of MIME_TYPES table and 
+#<Transformer_ID> should match with the entry in TRANSFORMER.TRANSFORMER_ID of TRANSFORMER table
+#Example: "MASTER_TRANSFORMER_SKIP_LIST_8"="ARTESIA.TRANSFORMER.ALCHEMY"
+#To skip the transformer if an asset is proxy use the following syntax
+#"PROXY_TRANSFORMER_SKIP_LIST_<Mimetype_ID>"="<Transformer_ID_1>,<Transformer_ID_2>,<Transformer_ID_3>" 
+#Example: "PROXY_TRANSFORMER_SKIP_LIST_8" = "ARTESIA.TRANSFORMER.ALCHEMY,ARTESIA.TRANSFORMER.PDF TO TEXT"
+
+# Max content size allowable for master content before requiring export
+# Units must match units in OBJECT_STACKS table
+#
+# Default = 25 MB (26214400 in BYTES)
+[PUBLIC]"MAX_CONTENT_VIEW_SIZE"="26214400"
+
+# Display archive icon in web client
+"DISPLAY_ARCHIVE_ICON"="N"
+
+
+#specify the RuleEngineImplementation class for validation.
+[RULEENGINE\CONFIG]
+"RULE_SERVICE_PROVIDER"="com.artesia.server.rulesengine.drools.DroolsRuleEngineImpl"
+
+
+[EXPORT\CLIENT]
+"SERVER_EXPORT_DIR"="/data/download"
+"HIDE_EXTENSIONS"=".adf|.ADF|._ljp|._LJP"
+
+[EXPORT\SERVER]
+"ALLOW_ENCODED_FILE_TRANSFORMATION"="N"
+# The number of seconds to wait before checking if asynchronously export content is complete
+"ASYNC_CONTENT_CHECK_INTERVAL"=DWORD:60
+"FILE_HANDLING_TEMPLATE_DIR"="/data/exporttemplates"
+[PUBLIC]"DEFAULT_DOWNLOAD_DELIVERY_TEMPLATE"="ARTESIA.TRANSFORMER.PROFILE.DOWNLOAD.DEFAULT"
+
+[IMPORT\SERVER]
+"PARTITION"="vol0"
+"MAX_FILES_IN_DIR"=DWORD:1000
+"USE_SHAGEN"="Y"
+"REMOVE_WORKING_DIR"="Y"
+"PO_REFERENCE_FULL_FILENAME"="Y"
+"USE_MIME_TYPE_HELPER"="Y"
+"DEFAULT_CONTENT_TYPE"="OTHER"
+#File attribute mapping for mime types
+#String is in the format <file attribute>:<mime type>,<file attribute>:<mime type>,...
+#The current implmentation of file attribute is only used for the Applet upload from the Mac
+#and is in the form Mac Creator/Mac File Type (e.g., ART5/TEXT)
+"FILE_ATTR_MIME_TYPE_MAP"="ART5/TEXT:application_vnd.adobe-illustrator,*/EPSF:image_eps,TVOD/MOOV:video_quicktime,*/JPEG:image_jpeg,*/TIFF:image_tiff,8BIM/8BPS:application_vnd.adobe-photoshop,*/PNG:image_png"
+
+# Fix for : Bug #18005. 
+# Furnish the exact Model ID (Not the Legacy ID) for this Entry.
+"DEFAULT_MODEL_ID"="ARTESIA.MODEL.DEFAULT"
+
+"DEFAULT_CONTENT_MANAGER_ID"="ARTESIA.CONTENT.FILESYSTEM"
+#"DEFAULT_CONTENT_MANAGER_ID"="ARTESIA.CONTENT.CENTERA"
+#"DEFAULT_CONTENT_MANAGER_ID"="ARTESIA.CONTENT.LEA"
+#"RENDITION_CONTENT_MANAGER_ID"="ARTESIA.CONTENT.FILESYSTEM"
+#"KEYFRAME_CONTENT_MANAGER_ID"="ARTESIA.CONTENT.FILESYSTEM"
+#"VIDEO_PROXY_CONTENT_MANAGER_ID"="ARTESIA.CONTENT.LEA"
+# Note: By default this entry is commented. To invoke asset interceptor, 
+# need to uncomment these two properties and mention appropriate asset implementation class and main content mime types.
+# ASSET_INTERCEPTOR_CLASS=com.artesia.server.asset.imprt.AssetImportInterceptorImpl
+# MASTERCONTENT_CONTENTSTORE_MAPPING='<MIMETYPE_1>,<MIMETYPE_2>' 
+# MIMETYPE_1="<CONTENT_MANAGER1>" 
+# MIMETYPE_2="<CONTENT_MANAGER2>"
+# Note: 
+# a) Where <MIMETYPE1> and <MIMETYPE2>should correspond to one of the entries in
+#    MIME_TYPES.ID column of MIME_TYPES table. 
+# b) Each comma separated value mentioned for MASTERCONTENT_CONTENTSTORE_MAPPING key must have a
+#    corresponding entry by replacing the slash(“/”) with underscore(“_”) and
+#    these keys should be of capital. Example:
+#   "MASTERCONTENT_CONTENTSTORE_MAPPING"=”application/pdf, application/vnd.adobe-indesign” 
+#   “APPLICATION_PDF”=”ARTESIA.CONTENT.CENTERA”
+#   “APPLICATION_VND.ADOBE-INDESIGN”=”ARTESIA.CONTENT.LEA”
+
+# Enter the MimeTypes to skip the MD5 generation
+# Use Comma ',' as a delimiter. Please check the following example
+#"MIME_TYPE_NO_MD5"="UNKNOWN,video/avi,video/mov,video/mpg,video/mpeg"
+"MIME_TYPE_NO_MD5" = "UNKNOWN"
+
+# To Fix the Bug #14529 and/or 17281
+# For all master video mime types listed in this section, the proxy (lo-res) mime type will be used for clip creation. 
+# You can add as many mime types as you wish to this list using pipe symbol i.e. "|" as the delimiter.
+# This setting should be used for master video mime types that cannot be played back with the browser video player plug-in.  
+# The first proxy created will be used for clip playback and must be compatible with the browser video player plug-in.
+"USE_PROXY_FOR_CLIP"="video/mxf|video/gxf|video/x-dv|video/mp4"
+
+# Help client (jHelp)
+[HELP\CLIENT]
+"HELPDOCS_JARFILE"="/jars/helpdocs.jar"
+
+[WORKFLOW\SERVER]
+"WORKFLOW_TEMPLATE_DIR"="/data/template"
+"WORKFLOW_TEMPLATE_DIR_FILE"="templates.xml"
+
+[WORKFLOW\CONFIG]
+"UPCOMING_TASK_NUMBER_DAYS"="20"
+"COMPLETED_TASK_NUMBER_DAYS"="30"
+#Use this setting to control default email notification settings in project creation.
+#Permitted values are 0 - 4 inclusive. Default Value is 3. A value of 0 means no default notifications.
+#"NOTIFICATION_SETTING"="0"
+
+# EMC-centera storage service
+[STORAGE\SERVER]
+#change the IMPORT\SERVER\DEFAULT_CONTENT_MANAGER setting to use centera as the default storage location
+"CENTERA_POOL_IP_ADDRESS"="your.centera.server.ip.address"
+#If using replication, this is a comma delimited list of pool addresses (e.g., "199.245.235.96,199.245.235.97")
+"REPLICA_POOL_ADDRESSES"=""
+"CENTERA_REPLICATION_ACTIVE"="NO"
+
+#for external api
+[EXTERNAL\SERVER]
+"CLASS_PATH_NAME"="your.custom.api.package.name"
+
+#Import Applet configuration
+[APPLET\CONFIG]
+#Relative URL path that will complete the upload process
+"UPLOAD_COMPLETION_URL"="/teams/Import.do?action=17"
+#Relative URL path that will upload the files from the applet
+"UPLOAD_FILES_URL"="/teams/Import.do?action=23"
+#Relative URL path that contains a properties file that overrides default text
+#"CONFIGURATION_PROPERTIES_URL"="/teams/applet/applet.properties"
+"CONFIGURATION_PROPERTIES_URL"=""
+#Whether the applet should print debug messages
+"APPLET_DEBUG_ON"="false"
+#The maximum size allowed for a file upload request. Size is in bytes. A value of -1 indicates no maximum will be used.
+"MAX_FILE_UPLOAD_REQUEST_SIZE"="-1"
+#The applet zips content over the ftp stream. The compression level can be set based
+#on bandwidth/processing constraints
+"COMPRESSION_LEVEL"="-1"
+#name of the HTTP session id cookie
+"SESSION_ID_COOKIE_NAME"="JSESSIONID"
+#Whether an attempt should be made to extract a preview for files uploaded from a mac
+"MAC_PREVIEW_EXTRACTION_ENABLED"="Y"
+#A delimited list of Macintosh creator codes that should have a preview extracted from the resource fork
+"MAC_PREVIEW_EXTRACTION_CREATOR_CODES"="FHA2,FHA3,aca3,FH50,FH90,FH X,FHX,ART3,ARTZ,ARTY,ART5,XPR3"
+#A delimited list of Macintosh file types that should NOT have a preview extracted even if the creator is
+#listed in the MAC_PREVIEW_EXTRACTION_CREATOR_CODES property
+"MAC_PREVIEW_EXTRACTION_IGNORED_FILE_TYPES"="EPSF,PDF ,BMPf,JPEG,GIFf,TIFF"
+#Whether files imported from the Mac should be macbinarized in order to preserve the resource data
+"MACBINARIZE_CONTENT"="Y"
+#Regular expression that validates the filenames characters that may be used.
+"VALID_FILENAME_EXPR"="/^[! #-)+-.0-;=@-\[\]-{}-~]+$/"
+#WARNING: Don't put any more lines below this one it this section because the previous line confuses the preferences parser
+
+#For the old metadata interfaces
+[METADATA\LEGACY-CONFIG]
+#Whether to reload all metadata immediately after a metadata save.
+#This may be necessary if metadata values may be influenced by triggers.
+"RELOAD_METADATA_ON_SAVE"="Y"
+#The UNIT of size for content in the UOIS/OBJECT_STACKS table
+"CONTENT_SIZE_UNIT"="BYTES"
+#The video link type ids that can't be saved via saveLinkInfo
+"VIDEO_LINK_TYPES"="PV,CLIP2VID"
+
+#Configurable class to run validation on metadata
+[METADATA\VALIDATOR]
+"METADATA_VALIDATOR_CLASS"="com.artesia.server.metadata.validation.ArtesiaMetadataValidator"
+
+[JNDI\CONFIG]
+"INITIAL_CONTEXT_FACTORY"="org.jnp.interfaces.NamingContextFactory"
+"FACTORY_URL_PACKAGES"="org.jboss.naming:org.jnp.interfaces"
+"PROVIDER_HOST"="130.132.119.96:11099"
+"USE_REMOTE_HOMES"="Y"
+"CACHE_EJB_HOMES"="Y"
+"USE_INTERNAL_CONTEXT_FACTORY_BUILDER"="N"
+
+#These settings are used on import to generate thumbnails and previews using alchemy. See the alchemy documentation
+#for details on settings.
+##########
+#OPTIONAL: <FILE EXTENSION>_ALCHEMY_THUMBNAIL_SETTINGS and/or <FILE EXTENSION>_ALCHEMY_PREVIEW_SETTINGS
+#This enables different settings for different image types based on file extension.
+#Example for bitmap images (*.bmp):
+#"BMP_ALCHEMY_THUMBNAIL_SETTINGS"="-j -b -Xb40 -Yb120"
+#"BMP_ALCHEMY_PREVIEW_SETTINGS"="-j -b -Xb200 -Yb200"
+#NOTE: file extension should be upper case
+##########
+[IMAGE\CONFIG]
+#Generic thumbnail settings
+"ALCHEMY_THUMBNAIL_SETTINGS"="-j -Xb500 -Yb375 -Zo 500p 375p -Zm2 -Zc1 -Ze -Za4 -Z+ -+ --+ -o ---k"
+#Generic preview settings
+"ALCHEMY_PREVIEW_SETTINGS"="-j -Xb1024 -Yb768 -Zo 1024p 768p -Zm2 -Zc1 -Ze -Z+ -Za4 -+ --+ -o ---k"
+
+[IMAGE\FPO]
+"FPO_XMP_ASSET_SOURCE" = "Artesia DAM"
+"FPO_XMP_ASSET_TYPE" = "Artesia DAM FPO"
+"FPO_XMP_DUBLIN_CORE_DESCRIPTION"="Artesia DAM FPO"
+"FPO_GENERATION"="OFF"
+#Generic FPO settings
+ALCHEMY_FPO_SETTINGS"="-j10 --y –D 72 72 -Zm2 -Ze -Za4 -o ---k"
+#Generic FPO settings for files that require ImageMagick
+"IMAGEMAGICK_FPO_SETTINGS"="-quality 30 -resample 72"
+# Watermark command line will look like this...
+# {WATERMARK_APP} FPOFile OutputFile
+"WATERMARK_APP"="C:\mm70\bin\ApplyWatermarkToFPO.bat"
+
+
+[WEBDAV\CONFIG]
+"LAYOUT_ASSET_SUBFOLDER_SUFFIX"=".linked assets"
+"LAYOUT_CONTENT_TYPES"="LAYOUT"
+"WORKING_AREA_TEAMS_EXPORT_NAME"="WEBDAV_WORKING_AREA_EXPORT_DIR"
+"EXCLUDED_ASSET_MODEL_IDS"="ARTESIA.MODEL.PROJECT,ARTESIA.MODEL.PARTICIPANT,ARTESIA.MODEL.COMMENTS"
+"MAX_REQUEST_DEPTH"=DWORD:3
+"CHECKED_OUT_ASSETS_URL"="/Login.do?action=6&forwardAction=/Cedit.do?action=8"
+"CHECKED_OUT_ASSETS_HTML_NAME"="Artesia - Checked Out Assets.html"
+"LOG_BUSINESS_ERROR_STACK_TRACES"="N"
+# To enable NTLM authentication for WebDAV, set this to Y
+# AND set SECURITY\SERVER\ALLOW_PREAUTHORIZED_USER_LOGIN = Y
+"NTLM_ENABLED"="N"
+# The BASE URL to the WebDAV web server without the web application name.
+# For example, "http://myhost.myco.com:1234"
+# NOTE: this is an optional setting - uncomment and populate only if the WebDAV server will be located on a different
+# host from the other Media Manager web applications (not typical)
+# "WEBDAV_BASE_URL"=""
+"IGNORED_MAC_FILENAMES"=".DS_Store,._.DS_Store,.metadata_never_index,.metadata_index_homes_only,.Spotlight-V100,.Metadata,.hidden"
+
+#Set win system file names that need to be ignored while ingesting into web folders in the system
+"IGNORED_WIN_FILENAMES" = "Thumbs.db"
+
+# Set this to "ON" to enable FPO workflow from the webdav volume
+"WEBDAV_FPO_OUTPUT"="OFF"
+
+# The model Id that needs to be assigned to , when an asset is ingested into folder , optional Entry
+#"WEBDAV_DEFAULT_ASSET_MODEL_ID"="ARTESIA.MODEL.DEFAULT"
+# default security policy that needs to be assigned to , when an asset is ingested into folder , optional Entry
+#"WEBDAV_DEFAULT_ASSET_SECURITY_POLICY_ID"="2"
+# The plain html file (having only text content ) that needs to be displayed for a read only folder , Optional Entry
+#"WEBDAV_READONLY_FOLDER_HTML_FILE"=<absolute html file path>
+
+
+[EXTERNAL_AUTH\NTLM]
+# You must either provide a domain controller
+# OR both the default domain and netbios WINS servers
+"DOMAIN_CONTROLLER"=""
+"DEFAULT_DOMAIN"=""
+"NETBIOS_WINS_SERVERS"=""
+"SMB_USER"=""
+#encrypted password
+"SMB_USER_PWD"=""
+
+[APPLICATION\CONTENT_SHARE]
+#Enter the path that the WebDAV and Web Services web applications
+#will reference the shared area as. If the WebDAV and Web Services
+#apps are running on a different box from the TEAMS servers, this will be the
+#path to the shared area as seen from the box running WebDAV and Web Services.
+#If everything is running on the same box, the local path and remote path will
+#be identical. For example, if WebDAV and Web Services web apps may reference
+#the content share area as "t:\app-workingarea" while the TEAMS servers reference
+#that path as "/opt/app-workingarea"
+"LOCAL_PATH"="c:\mm70\workingarea"
+#The path to the shared area from the TEAMS servers perspective
+"REMOTE_PATH"="c:\mm70\workingarea"
+# Use "/" for Unix, "\" for Windows
+"REMOTE_FILE_SEPARATOR_CHAR"="\"
+# How often should the the cleanup timer fire.
+# Value is in seconds.
+"CLEANUP_TIMER_INTERVAL"=DWORD:600
+# How far back in the past to consider
+# files old enough to be deleted.
+# Value is in minutes.
+"CLEANUP_FILE_AGE_THRESHOLD"=DWORD:120
+# How often should the the cleanup timer fire.
+# Value is in seconds.
+"EXPORT_CLEANUP_TIMER_INTERVAL"=DWORD:600
+# How far back in the past to consider
+# files old enough to be deleted.
+# Value is in hours.
+"EXPORT_CLEANUP_FILE_AGE_THRESHOLD"=DWORD:24
+
+
+[CONTENT\CONFIG]
+#This is a comma delimited list of logical names that map to physical locations. 
+#These are used for file transfer and file referencing
+#merged from 68
+#"NAMED_AREA_NAMES"="IMPORT_WORKING_AREA,TEAMS_HOME_AREA,DEFAULT_EXPORT_AREA,VIDEO_FILE_STAGING_AREA,WEBDAV_WORKING_AREA_EXPORT_DIR,PROJECT_EXPORT"
+"NAMED_AREA_NAMES"="IMPORT_WORKING_AREA,TEAMS_HOME_AREA,DEFAULT_EXPORT_AREA,VIDEO_FILE_STAGING_AREA,WEBDAV_WORKING_AREA_EXPORT_DIR,PROJECT_EXPORT,HOT_FOLDER_AREA"
+#Each named area must have a corresponding mapping directory
+"IMPORT_WORKING_AREA"="${TEAMS_HOME}/data/cs/working_area/import"
+"TEAMS_HOME_AREA"="${TEAMS_HOME}"
+"DEFAULT_EXPORT_AREA"="${TEAMS_HOME}/data/product"
+# This should be set to Y if video proxy transcoding is being done
+"STAGE_VIDEO_CONTENT"="Y"
+#THE VIDEO FILE STAGING AREA MUST BE in UNC FORMAT \\server\folder
+"VIDEO_FILE_STAGING_AREA"="\\MM7INDEX\import"
+#This is the webdav export directory. If your webdav working area is /opt/artesia/webdav/workingarea,
+#the value here would be /opt/artesia/webdav/workingarea/webdav-export
+"WEBDAV_WORKING_AREA_EXPORT_DIR"="c:\mm70\workingarea/webdav/webdav-export"
+"PROJECT_EXPORT"="${TEAMS_HOME}/data/product"
+# merged from 68
+#"HOT_FOLDERS_AREA"="c:\temp\HOTFOLDER"
+"HOT_FOLDERS_AREA"="V:\"
+# This indicates the character(s) to be stripped out of an export list file name due to conflicts with the operating system's file naming. When a character is included in this list, this precludes the character from appearing in an export list file name. For example, the expression of [/$#;] will strip out the forward slash (/), dollar sign ($), pound sign (#), and semi-colon (;) if present in an export list file name.
+"INVALID_EXPORT_FILENAME_EXPR"="[/$#;]"
+
+
+[CONTENT_TRANSFER\CONFIG]
+#URL to the internal Media Manager content transfer web application.
+#Only specify this value if the content transfer web application is not co-located with the
+#other Media Manager web applications (not typical)
+#"BASE_URL"=""
+#Only change if the web application name must be changed (not typical)
+#"WEB_APP_NAME"="content"
+
+[CONTENT\SERVER]
+"CONTENT_MONITOR_SERVICES_ENABLED"="FALSE"
+"CONTENT_MONITOR_SERVICES_TIMER_INTERVAL"=DWORD:60
+
+[WEB\LLDS]
+"LLDS_MAPPING_FILE"="C:\LLDS-search\TEAM\TAGMAP.db"
+"LLDS_ROOT_SERVLET"="/brs/docSearch"
+"LLDS_USERID"="lldsuserid"
+"LLDS_DATABASE"="TEAM"
+"LLDS_BRSNLQUERYTYPE"="3"
+"LLDS_BRSNEXTPAGE"="/teamsSearchResults.jsp"
+"LLDS_SORT_LENGTH"=DWORD:100
+"LLDS_NUMERIC_SORT_LENGTH"=DWORD:50
+"HIT_REQUEST_MULTIPLIER"=DWORD:2
+"SEARCHABLE_CHARS"="A-Z,a-z,0-9,ª,À-Ö,Ø-ö,ø-ÿ"
+"NOISE_CHARS"="&,',,"
+"POST_CHARS"="-,/,\\,_,:"
+"ABBREV_CHARS"="."
+"DOUBLEPOST_ENABLED"="Y"
+"LLDS_ADV_SEARCH_SERVLET"="LLDSAdvSearch.do"
+"LLDS_CATEGORY_SERVLET"="LLDSCategory.do"
+"RESTRICTED_MODELS"="11"
+"FILTER_SECURITY_IN_ENGINE"="Y"
+"MAXIMUM_SECURITY_TOKENS"=DWORD:0
+
+[SERVER\EVENTS]
+"EVENT_LISTENERS"="com.artesia.server.event.listener.LogEventListener,com.artesia.server.event.listener.LogEventIntoFileListener,com.artesia.server.event.listener.ProjectNotificationEventListener,com.artesia.server.event.listener.AssetSubscriptionEventListener,com.artesia.server.event.listener.ProjectOverdueEventListener"
+"PUBLISH_METADATA_CHANGE_EVENTS"="FALSE"
+
+#The system domains to which cannot be managed using the web admin domain editor. 
+[DOMAIN_EDITOR\SYSTEM]
+"EXCLUDED_DOMAINS"="ARTESIA.DOMAIN.MODELS|ARTESIA.DOMAIN.SECURITY_POLICIES|ARTESIA.DOMAIN.YES_NO|ARTESIA.DOMAIN.USERS|ARTESIA.DOMAIN.METADATA_PROFILES|ARTESIA.DOMAIN.METADATA_STATES|ARTESIA.DOMAIN.MIME_TYPES|ARTESIA.DOMAIN.MIME_TYPE_NAMES|ARTESIA.DOMAIN.BITMAP_COLOR_DEPTHS|ARTESIA.DOMAIN.BITMAP_COLOR_MAP|ARTESIA.DOMAIN.BITMAP_ORIENTATIONS|ARTESIA.DOMAIN.CONTENT_TYPES|ARTESIA.DOMAIN.PARTICIPANT_DEPARTMENTS|ARTESIA.DOMAIN.PARTICIPANT_ROLE|ARTESIA.DOMAIN.TEAMS_USER_IDS|ARTESIA.DOMAIN.CONTENT_STATES"
+
+[TRANSFORMER\CONFIG]
+#timeout for Media Manager transformers. 0 = no timeout
+"DEFAULT_TIMEOUT_IN_SEC"=DWORD:0
+#To disable transformation event set the value as FALSE
+"TRANSFORMATION_EVENT_ENABLED"="TRUE"
+
+[SHOTLISTEDITOR\CONFIG]
+"SHOTLISTEDITOR_ENABLED"="N"
+
+[EXPORT\VIDEO]
+#"EXCLUDE_LINK_TYPES"="PRJ-USR|USR-PRJ|PRJ-OWN|..."
+"DIVA_TELESTREAM_DEST_ID"="diva"
+"TELESTREAM_TRANSFORMER_ID"="ARTESIA.TRANSFORMER.VIDEO STITCH TRANSCODE"
+"DELIVERY_TRANSFORMER_ID"="ARTESIA.TRANSFORMER.VIDEO DELIVERY"
+
+[EXPORT\TRANSFORMER_SOURCE]
+# must be ftp or file.
+"TYPE"="file"		
+# host name or ip of the host.
+"HOST"="hostname"	
+# user name with appropriate access privileges.
+"USERNAME"="username"
+# encrypted password  for the specified user.
+"PASSWORD"="password"	
+# path of the directory where the transformer will look for the file.
+"PATH"="C:\repository"
+
+
+####
+#
+# UX Configuration 
+#
+# These properties are used by the UX/RIA client API.
+#
+###
+
+#
+# General Configuration Paramters for the Ux
+#
+[UX\GENERAL]
+# The idle timeout for the Ux client in minutes
+[PUBLIC]"IDLE_TIMEOUT"=DWORD:30;
+# If true, links between assets being copied will be replicated to the copies of the assets
+"COPY_ASSET_INNER_LINKS"="TRUE"
+# If true, links originating from the assets being copied will be replicated on the copies of the assets
+"COPY_ASSET_SOURCE_LINKS"="TRUE"
+# If true, links to the assets being copied will be replicated on the copies of the assets
+"COPY_ASSET_DESTINATION_LINKS"="TRUE"
+#This is the maximum number of visible categories that a user can have in its tree view. Increasing this value increases GUI response time. Its recommended that any parent category doesn't have more that 200 children.
+[PUBLIC]"MAX_NUMBER_OF_NODES_NEED_REFRESHING"=DWORD:500
+
+#This is the frequency of  posting a "refresh asset count" request message for open categories and their children. If you plan to have too many categories open, increase this to 1 minute. Increasing it causes longer intervals between asset count refreshes.
+[PUBLIC]"CATEGORY_REFRESH_TIMER_FREQ_IN_MILISEC"=DWORD:30000
+
+#This is the frequency of  invoking 'processPostedMessages()' which retrieves all the messages from the inbox and put the asset count request (for each) in DataRefreshAgent which is going to call one service for all the asset count requests.
+[PUBLIC]"CATEGORY_MESSAGE_PICKUP_TIMER_FREQ_IN_MILISEC"=DWORD:1000
+
+#This is the number of Asset count refresh requests that are to be placed in data refresh agent buffer on each round. If you set it too high (more than 500), it causes BlazeDS to crash.
+[PUBLIC]"CATEGORY_MESSAGE_CHUNK_SIZE"=DWORD:100
+
+
+
+
+#
+# Locale Configuration Paramters for the Ux
+#
+[UX\LOCALE]
+"LOGIN_LOCALE_FILE"="LoginLocale.swf"
+"APPLICATION_LOCALE_FILE"="ApplicationLocale.swf"
+
+#
+# Configuration Paramters for the Ux Cache
+#
+[UX\CACHE]
+#
+#  Configuration properties for the caching behavior of the Ux Services.  Security and category caching can be turned off 
+#  to have admin changes avaialbe immediately in the Ux.  Otherwise, the user must logout and log back-in to see 
+#  changes to these items.  To disable these items, set the names of these caches to "DISABLE". 
+#
+#
+# Enable or disable the caching of request objects and data templates.  Caching will speed up object retrieval.  If you are 
+# developing templates, you should set this to FALSE to allow template changes to take effect without requiring a server bounce.
+"REQUEST_CACHE_ENABLED"="TRUE"
+#The implementation class for the cache.
+"CACHEMANAGER_PROVIDER"="com.artesia.ux.common.util.cache.EhCacheManager"
+# Path to the cache configuration file
+"CACHE_CONFIG_URL"="file://${TEAMS_HOME}/data/ux/ehcache-config.xml"
+# The type of cache to use for session objects
+"SESSION_CACHE_TYPE"="session"
+# The type of cache for system properties
+"SYSTEM_CACHE_TYPE"="system"
+# The type of cache to use for metadata
+"METADATA_CACHE_TYPE"="metadata"
+# The type of cache to use for security data.  Disable  by setting to "DISABLED"
+"SECURITY_CACHE_TYPE"="DISABLE"
+#"SECURITY_CACHE_TYPE"="security"
+# The type of cache to use for vocabulary objects.  Disable by setting to "DISABLED".  
+"CATEGORY_CACHE_TYPE"="DISABLE"
+#"CATEGORY_CACHE_TYPE"="category"
+
+
+#
+# Configuration for the Object Builder (it creates most of the entity data for the Ux)
+#
+[UX\OBJECTBUILDER]
+# Set to true if the object builder will run threaded.  Threading will parallelize the creation 
+# of DAMObject from the server.
+"THREADING_ON"="false"
+# The number of threads available to the object builder.  If no threads are available, processing
+# will be single threaded on the calling thread
+"THREAD_POOL_SIZE"=DWORD:40
+# The number of objects to process per thread, e.g. if page size=100, and THREAD_LOAD=25 four threads will be use
+# for the request
+"THREAD_LOAD"=DWORD:25
+
+#
+# Configuration Paramters for the Ux Customizations
+#
+[UX\CUSTOM]
+# PAth to the object editor extensions that includes items like the lookup configuration
+"OBJECT_EDITOR_EXTENSION_FILE"="${TEAMS_HOME}/data/ux/extensions/ObjectEditorExtensions.xml"
+# Path to the import file filter file
+"IMPORT_METADATA_FILTER"="${TEAMS_HOME}/data/ux/ImportMetadataFilter.xml"
+"METADATA_FILTER_FILE"="${TEAMS_HOME}/data/ux/MetadataFilters.xml"
+"EXTERNAL_MODULE"="${TEAMS_HOME}/data/ux/extensions/CustomModules.xml"
+
+#Maximum total file size limit for imported files.
+#Value is in MB, e.g. 10= 10MB
+[UX\IMPORT]
+[PUBLIC]"MAX_IMPORT_FILE_SIZE"=DWORD:2000
+
+[UX\EXPORT]
+# Determines which job level transformer will be filtered out of the packaging options
+# on the export screen.
+"ZIP_TRANSFORMER"="ARTESIA.TRANSFORMER.ZIP COMPRESSION.DEFAULT"
+
+[VIDEO\TRANSCODE]
+"VIDEO_TRANSCODE_CLASS"="com.artesia.video.transcode.services.RhozetTranscodeServices"
+"TRANSCODE_HOST"="MM7TRANS"
+"TRANSCODE_PORT"="1120"
+"UNC_REPOSITORY"="\\MM7INDEX\import"
+"WORKING_PATH"="C:\mm70\data\cs\working_area\import"
+"PRIMARY_KEYFRAME"="1"
+"PROXYGUID"="{4637E5AF-47BD-4E4D-8D82-01EC942F2FBB}"
+"KEYFRAMEGUID"="{365E8121-2355-470D-9450-44EB88759688}"
+"EXPORTGUID"="{61C97D59-08D9-415F-B2B8-C286D0A0EABB}"
+“AUDIO”=”{D5A3AD39-0503-4CD6-9B0D-33A72AA01169}”
+"EXPORTGUID_WMV"="{06D35087-7FF2-44C5-B2DA-055DF87AAA7B}"
+"EXPORTGUID_IPHONE"="{59745FD3-E5A0-49C4-A9A4-187B988C3734}"
+"EXPORTGUID_MOBILE"="{1BF2700F-9B5A-43E4-B241-5A1EDFF4DC0C}"
+"EXPORTGUID_MOV"="{F3BB90E2-19DF-4C64-A4CE-342263E0F083}"
+"EXPORTGUID_F4V"="{87E01268-C3E3-4A85-9701-052C9AC42BD4}"
+"EXPORTGUID_MP4"="{4637E5AF-47BD-4E4D-8D82-01EC942F2FBB}"
+
+# merged from 68
+[YALE_HOT_FOLDER\PARAMETERS]
+"MUSEUM_1"="YCBA"
+"MUSEUM_2"="YPM"
+"MUSEUM_3"="YUAG"
+"MUSEUM_4"="YUL"
+"MUSEUM_5"="BRBL"
+"MUSEUM_6"="ODAI6"
+"MUSEUM_7"="ODAI7"
+"MUSEUM_8"="ODAI8"
+"MUSEUM_9"="ODAI9"
+"MUSEUM_10"="ODAI10"
+"ODAI_DEFAULT_SECURITY"="ODAI Work in Progress Security Policy"
+"YCBA_DEFAULT_SECURITY"="YCBA Work in Progress Security Policy"
+"YPM_DEFAULT_SECURITY"="YPM-2-WIP-General-Policy"
+"YUAG_DEFAULT_SECURITY"="YUAG Work in Progress Security Policy"
+"YUL_DEFAULT_SECURITY"="YUL Work in Progress Security Policy"
+"BRBL_DEFAULT_SECURITY"="BRBL Work in Progress Security Policy"
+"FILE_IDLE_DELAY"="1"
+
+[IMAGEMAGICK\CONFIG]
+"CS_ICC_COUNT"="4"
+"CS_ICC_1"="DirectClassAdobeRGB1998,${TEAMS_HOME}/icc/AdobeRGB1998.icc"
+"CS_ICC_2"="DirectClassEciRGB_v2,${TEAMS_HOME}/icc/eciRGB_v2.icc"
+"CS_ICC_3"="DirectClassSRGB_v4,${TEAMS_HOME}/icc/sRGB_v4.icc"
+"CS_ICC_4"="DirectClassCMYK,${TEAMS_HOME}/icc/cmyk.icc"
+"ICC_COUNT"="4"
+"ICC_1"="AdobeRGB1998,${TEAMS_HOME}/icc/AdobeRGB1998.icc"
+"ICC_2"="eciRGB_v2,${TEAMS_HOME}/icc/eciRGB_v2.icc"
+"ICC_3"="sRGB_v4,${TEAMS_HOME}/icc/sRGB_v4.icc"
+"ICC_4"="CMYK,${TEAMS_HOME}/icc/cmyk.icc"
+"IM_BIN_PATH"="C:\\Program Files\ImageMagick-6.5.9-Q16"
+"THUMB_SIZE"="160x160"
+"PREVIEW_SIZE"="472x354"
+"WORK_AREA"="${TEAMS_HOME}\data\cs\working_area\export\imagemagick"

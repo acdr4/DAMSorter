@@ -1,0 +1,1 @@
+This folder needs to be emptied from all JPEG files periodically, preferably cron nighly job

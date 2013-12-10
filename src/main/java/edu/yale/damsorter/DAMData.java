@@ -10,6 +10,9 @@ public class DAMData {
     String primary = "";
     String rank = "";
     String cdsLevel = "";
+    String filename = "";
+    String keywords = "";
+    String descCaption = "";
     String thumb = "";
 
     // --------------------------------------------------------------------
@@ -34,7 +37,19 @@ public class DAMData {
     public void setCdsLevel(String cdsLevelData) {
         cdsLevel = cdsLevelData;
     }
-
+    
+    public void setFilename(String filenameData) {
+        filename = filenameData;
+    }
+  
+    public void setKeywords(String keywordsData) {
+        keywords = keywordsData;
+    }
+    
+    public void setDescCaption(String descCaptionData) {
+        descCaption = descCaptionData;
+    }
+    
     public void setThumb(String thumbUrl) {
         thumb = thumbUrl;
     }
@@ -56,6 +71,18 @@ public class DAMData {
     public String getCdsLevel() {
         return cdsLevel;
     }
+  
+    public String getFilename() {
+        return filename;
+    }  
+    
+    public String getKeywords() {
+        return keywords;
+    }  
+    
+    public String getDescCaption() {
+        return descCaption;
+    }  
     
     public String getThumb() {
         return thumb;

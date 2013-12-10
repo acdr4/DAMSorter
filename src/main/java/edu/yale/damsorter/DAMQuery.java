@@ -19,6 +19,7 @@ import java.util.ListIterator;
 import java.util.*; //importing some java classes
 import java.lang.*;
 import java.io.*;
+import org.apache.log4j.Logger;
 
 // DAM
 import com.artesia.asset.Asset;
@@ -39,12 +40,14 @@ public class DAMQuery {
     // to increase the nuber of records requested from DAM
     // increase the memory given to this program, all this
     // is done in memory. 
-
+    
     private int maxDAMrecords = 25000;
-
+    static Logger log = Logger.getLogger(DAMQuery.class.getName());
+    
     protected ArrayList<DAMData> queryDAM(SecuritySession session, SearchParams searchObj) {
 
-        System.out.println("Querying DAM...");
+        //System.out.println("Querying DAM...");
+        log.info("Querying DAM...");
         ArrayList<DAMData> damArr = new ArrayList<DAMData>();
 
         try {
@@ -64,7 +67,9 @@ public class DAMQuery {
                 new TeamsIdentifier("YALE.FIELD.BIBLIO.BIB ID"), // char (25)		varchar ()
                 new TeamsIdentifier("YALE.FIELD.MEDIA.IS PRIMARY"), // char (1)		varchar (45)
                 new TeamsIdentifier("YALE.FIELD.MEDIA.RANK"), // integer (5)		int
-                new TeamsIdentifier("YALE.FIELD.COMMON.CDS ACCESS")
+                new TeamsIdentifier("YALE.FIELD.IPTC.XMP.IPTC KEYWORDS"),   // keywords
+                new TeamsIdentifier("YALE.FIELD.IPTC.XMP.DESCR CAPTION")    // image caption (online collection)
+                //new TeamsIdentifier("YALE.FIELD.COMMON.CDS ACCESS")
             };
 
             dataRequest.setMetadataFieldsToRetrieve(fieldIds);
@@ -89,11 +94,20 @@ public class DAMQuery {
                     new TeamsIdentifier("YALE.FIELD.COMMON.REPOSITORY CODE"),
                     SearchConstants.OPERATOR_ID__CHAR_IS, "YCBA");
 
-            // filename  
-            SearchMetadataCondition filenameNotNull = new SearchMetadataCondition(
+            SearchMetadataCondition fileContainsPub = null;
+            if (searchObj.getPubOnly() !=null || (!searchObj.getPubOnly().trim().isEmpty())) {
+                log.info("Filename contains: " + searchObj.getPubOnly());
+                //System.out.println("Filename contains: " + searchObj.getPubOnly());
+                fileContainsPub = new SearchMetadataCondition(
+                        new TeamsIdentifier("YALE.FIELD.IPTC.XMP.FILENAME"),
+                        SearchConstants.OPERATOR_ID__CHAR_CONTAINS, searchObj.getPubOnly());
+            } else {
+                // filename  
+                fileContainsPub = new SearchMetadataCondition(
                     new TeamsIdentifier("YALE.FIELD.IPTC.XMP.FILENAME"),
                     SearchConstants.OPERATOR_ID__CHAR_IS_NOT_EMPTY, null);
-
+            }
+            
             // asset not deleted 
             SearchMetadataCondition notDeleted = new SearchMetadataCondition(
                     MetadataFieldConstants.METADATA_FIELD_ID__CONTENT_STATUS,
@@ -102,22 +116,28 @@ public class DAMQuery {
 
             objectIDlimit.setRelationalOperator(SearchConstants.OPERATOR_AND);
             repositoryCode.setRelationalOperator(SearchConstants.OPERATOR_AND);
-            filenameNotNull.setRelationalOperator(SearchConstants.OPERATOR_AND);
+            //filenameNotNull.setRelationalOperator(SearchConstants.OPERATOR_AND);
+            fileContainsPub.setRelationalOperator(SearchConstants.OPERATOR_AND);
             notDeleted.setRelationalOperator(SearchConstants.OPERATOR_AND);
 
             Search search = new Search();   // create search objects 
-            search.addCondition(filenameNotNull);
+            //search.addCondition(filenameNotNull);
             search.addCondition(objectIDlimit);
             search.addCondition(repositoryCode);
             search.addCondition(notDeleted);
+            search.addCondition(fileContainsPub);
+            
 
             RetrieveAssetsCriteria criteria = new RetrieveAssetsCriteria();
 
             criteria.setSearchInfo(search, maxDAMrecords); // to increase the number of records, increase VM memory -Xms128m -Xmx512m
 
-            System.out.println("  executing query for YCBA, filename != null, asset not deleted, " + searchObj.getCriterion() + " = " + searchObj.getid() + ".");
+            //System.out.println("  executing query for YCBA, filename != null, asset not deleted, " + searchObj.getCriterion() + " = " + searchObj.getid() + ".");
+            log.info("  executing query for YCBA, filename != null, asset not deleted, " + searchObj.getCriterion() + " = " + searchObj.getid() + ".");
             Asset[] searchAssets = AssetServices.getInstance().retrieveAssets(criteria, dataRequest, session);
-            System.out.println("  retrieved " + searchAssets.length + " records");
+            
+            //System.out.println("  retrieved " + searchAssets.length + " records");
+            log.info("  retrieved " + searchAssets.length + " records");
 
             DAMData data;
 
@@ -128,12 +148,17 @@ public class DAMQuery {
                 data.setAssetId(asset.getMetadata().getValueForField(new TeamsIdentifier("ARTESIA.FIELD.ASSET ID")).getStringValue());
                 data.setPrimary(asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.MEDIA.IS PRIMARY")).getStringValue());
                 data.setRank(asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.MEDIA.RANK")).getStringValue());
+                data.setFilename(asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.IPTC.XMP.FILENAME")).getStringValue());
+                data.setKeywords(asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.IPTC.XMP.IPTC KEYWORDS")).getStringValue());
+                data.setDescCaption(asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.IPTC.XMP.DESCR CAPTION")).getStringValue());
+                
+                /*
                 if (asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.COMMON.CDS ACCESS")) != null) {
                     data.setCdsLevel(asset.getMetadata().getValueForField(new TeamsIdentifier("YALE.FIELD.COMMON.CDS ACCESS")).getStringValue());
                 } else {
                     System.out.println("No YALE.FIELD.COMMON.CDS ACCESS for Asset # " + data.getAssetId());
                 }
-
+                */
                 if (asset.getRenditionContent().getThumbnailContent().getContentBytes() != null) {
                     //get thumbnail binary from DB and write it to images folder...image name = assetId
                     byte[] thumbnail = asset.getRenditionContent().getThumbnailContent().getContentBytes();
@@ -142,7 +167,8 @@ public class DAMQuery {
                     out.close();
                     data.setThumb(searchObj.getUrl() + "/images/" + data.getAssetId() + ".jpeg");
                 } else {
-                    System.out.println("No thumbnail available for" + data.getAssetId());
+                    //System.out.println("No thumbnail available for" + data.getAssetId());
+                    log.info("No thumbnail available for" + data.getAssetId());
                 }
 
                 //add the DAMData object to our arraylist that is to be returned
@@ -150,10 +176,13 @@ public class DAMQuery {
             } //end for loop 
             long endTime = System.currentTimeMillis();
             long duration = endTime - startTime;
-            System.out.println("Query execution time = " + duration + "ms");
+            //System.out.println("Query execution time = " + duration + "ms");
+            log.info("Query execution time = " + duration + "ms");
+            
         } //end try
         catch (Exception e) {
-            System.out.println("Error querying DAM,  Message ID: " + e.getMessage());
+            //System.out.println("Error querying DAM,  Message ID: " + e.getMessage());
+            log.info("Error querying DAM,  Message ID: " + e.getMessage());
             //System.exit(0);
         }
         return damArr;

@@ -13,20 +13,23 @@ import com.artesia.security.session.services.AuthenticationServices;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * Main class for running examples.
  */
 public class SessionHandler {
 
+    static Logger log = Logger.getLogger(SessionHandler.class.getName());
+    
     public static final int SLEEP_DURATION = 60000;
 
     public static SecuritySession getSecuritySession(String user, String password) throws BaseTeamsException {
@@ -39,7 +42,8 @@ public class SessionHandler {
             AuthenticationServices.getInstance().logout(session);
 
         } catch (BaseTeamsException ex) {
-            Logger.getLogger(SessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(SessionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            log.info("Session logout not successful");
         }
     }
 
@@ -76,14 +80,20 @@ public class SessionHandler {
         try {
             session = SessionHandler.getSecuritySession(userId, password);
         } catch (Exception e) {
-            System.out.println("DAM JNDI login failed");
+            //System.out.println("DAM JNDI login failed");
+            log.info("DAM JNDI login failed");
             System.exit(0);
         }
 
-        System.out.println(" ");
-        System.out.println("-------------------------------------------------------------------");
-        System.out.println("logged in to JNDI as: " + session.getUserFullName());
-        System.out.println("-------------------------------------------------------------------");
+        log.info(" ");
+        log.info("-------------------------------------------------------------------");
+        log.info("logged in to JNDI as: " + session.getUserFullName());
+        log.info("-------------------------------------------------------------------");
+        log.info(" ");
+        //System.out.println(" ");
+        //System.out.println("-------------------------------------------------------------------");
+        //System.out.println("logged in to JNDI as: " + session.getUserFullName());
+        //System.out.println("-------------------------------------------------------------------");
 
         return session;        
     }

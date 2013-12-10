@@ -1,0 +1,50 @@
+/* 
+    Document   : search
+    Created on : Jun 18, 2013, 9:05:48 AM
+    Author     : acdr4
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body {
+    font-family: Verdana, Arial;
+    font-size: 10px;
+}
+
+hr {
+    boder:0;
+    border-top: 1px solid #d5d0bf;
+    margin: 1.4em 0;
+}
+
+input.text {
+    border:1px solid #666;
+    margin:0;
+    padding:0;
+    width:120px;
+} 
+
+input.radio {
+    float:left;
+    clear:none;
+    margin: 2px 0 0 2px;
+}
+
+label {
+    float:left;
+    clear:none;
+    display:block;
+    padding:2px 1em 0 0;
+}
+
+#big {font-weight: bold;}
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; height: 100%;}
+#sortable li { display: block; margin: 3px 3px 3px 0; padding: 1px; float: left; width: 155px; height: 250px; font-weight: bold; font-size: 1em; text-align: left; }
+#transbox { background-color:#ffffff; color:#000; width:20px; border:1px solid black; opacity:0.4; filter:alpha(opacity=40); } 
+img {max-width:128px;max-height:128px;}
+#saveData {max-height:100%; display: inline;}
+#busy_icon {position: absolute; left: 45%; bottom: 52%;}

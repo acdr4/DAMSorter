@@ -1,3 +1,4 @@
+
 <%-- 
     Document   : search
     Created on : May 27, 2013, 3:47:23 PM
@@ -5,29 +6,29 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<!doctype html>
 
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>jQuery UI Sortable - Display as grid</title>
+        <title>MM7 ObjectID & BibID Sort</title>
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-        <style>
-            #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; height: 100%;}
-            #sortable li { display: block; margin: 3px 3px 3px 0; padding: 1px; float: left; width: 128px; height: 200px; font-weight: bold; font-size: 1em; text-align: left; }
-            #transbox { background-color:#ffffff; color:#000; width:20px; border:1px solid black; opacity:0.4; filter:alpha(opacity=40); } 
-            img {max-width:128px;max-height:128px;}
-            #saveData {max-height:100%; display: inline;}
-            #busy_icon {position: absolute; left: 45%; bottom: 52%;}
-        </style>
+        <link rel="stylesheet" type="text/css" href="search.css"/>
 
         <!--create a useBean session that will fetch JSON for the searched object -->
         <jsp:useBean id="searchbean" scope="session" class="edu.yale.damsorter.SearchQueryHandler" />
-        <jsp:setProperty name="searchbean" property="search_by" />
-        <jsp:setProperty name="searchbean" property="search_id" />
+        
         <%
+            String s_by = request.getParameter("search_by");
+            String s_id = request.getParameter("search_id");
+            String p_only = request.getParameter("pub_only");
+        %>
+        <jsp:setProperty name="searchbean" property="search_by" value="<%=s_by%>"/>
+        <jsp:setProperty name="searchbean" property="search_id" value="<%=s_id%>"/>
+        <jsp:setProperty name="searchbean" property="pub_only" value="<%=p_only%>"/>
+        <%       
             searchbean.path = pageContext.getServletContext().getRealPath("/");
             searchbean.url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             String json = searchbean.getJSON();
@@ -38,6 +39,10 @@
             //var old_position;
             var new_position = new Array();
             var recordsObj;
+    
+            window.onbeforeunload = function() {
+                return "Did you save your work?";
+            };
     
             //called when objects are sorted/re-arranged
             $(function() {
@@ -85,31 +90,52 @@
             //sets primaryIdx to object with index provided
             function setPrimary(index)
             {
-                recordsObj.primaryIdx = index;
+                for(i = 0; i < recordsObj.recordsArr.length; i++)
+                {
+                    if (i == index)
+                        recordsObj.recordsArr[i].primary = "Y";
+                    else
+                        recordsObj.recordsArr[i].primary = "N";
+                }
+                //recordsObj.primaryIdx = index;
                 //displayRecordsObj("primaryIdx");
             }
             
+            
             //sets cds level of the object with index provided
+            /*
             function setCDSLevel(index)
             {
                 recordsObj.recordsArr[index].cdsLevel = $('#cds_level'+index+'').val();
                 //displayRecordsObj("cdsLevel");
             }
-        
+            */
+           
+            function setKeywords(value, index)
+            {
+                recordsObj.recordsArr[index].keywords = value;
+            }
+            
+            function setDescCaption(value, index)
+            {
+                recordsObj.recordsArr[index].descCaption = value;
+            }
+           
             //update all the ranks as per the newly sorted objects
             function updateRank(posArr)
             {
                 var rankArr = new Array(posArr.length);
                 for(i = 0; i < posArr.length; i++)
                 {
-                    rankArr[posArr[i]] = i;
+                    rankArr[posArr[i]] = i+1;
                 }
                 $.each(recordsObj.recordsArr, function(i) {
                     recordsObj.recordsArr[i].rank = rankArr[i];
                 });
             }
             
-            //helper function to display various contents of recordsObj JSON object
+            //helper function to display various contents of 
+            //IMG I alert(JSON.stringify(recordsObj));  JSON object
             function displayRecordsObj(param)
             {
                 var temp = [];
@@ -123,6 +149,12 @@
                         temp.push(recordsObj.recordsArr[i].rank);
                     }
                 }
+                else if(param == "primary"){
+                    for(i = 0; i < recordsObj.recordsArr.length; i++){
+                        temp.push(recordsObj.recordsArr[i].primary);
+                    }
+                }
+                /*
                 else if(param == "primaryIdx"){
                     temp.push(recordsObj.primaryIdx);
                 }
@@ -131,7 +163,8 @@
                         temp.push(recordsObj.recordsArr[i].cdsLevel);
                     }
                 }
-                alert(temp);
+                */
+                //alert(temp);
             }
             
             // executed when search button is clicked...
@@ -157,6 +190,7 @@
             //executed when save button is clicked...posts recordsObj to save.jsp
             function postJson()
             {
+                //alert(JSON.stringify(recordsObj));
                 // confirm window pops up for safety before data is written in DAM
                 var check = confirm("Changes will be written to DAM. Press OK to proceed.");
                 if (check == true)
@@ -179,6 +213,7 @@
             }
             
             // makes an options tag element with options including numbers form start to end (inclusive)
+            /*
             function makeCdsOptionsTag(start, end)
             {
                 var tagString = "";
@@ -188,55 +223,142 @@
                 }
                 return tagString;
             }
+            */
+            function sortResults(objData, prop, asc) {
+                objData = objData.sort(function(a, b) {
+                    if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+                    else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+                });
+                //alert(JSON.stringify(objData));
+                return objData;
+            }
+            
+            function sortData(sort_by) {
+                if (recordsObj.recordsArr.length > 1) {
+                    // sort accending for all except primary
+                    if(sort_by != "primary")
+                        recordsObj.recordsArr = sortResults(recordsObj.recordsArr, sort_by, true);
+                    else
+                        recordsObj.recordsArr = sortResults(recordsObj.recordsArr, sort_by, false);
+                 
+                    $('#caption').empty();
+                    //$('#caption').append('<b>Displaying search results for '+ search_by +
+                    //    ' '+ recordsObj.search_id +'</b>');
+                    $('#sortable').empty();
+                    $('#sortable').append('<hr/>');
+                    
+                    //reset position array
+                    new_position = [];
+                    
+                    //set up each image div from json
+                    $.each(recordsObj.recordsArr, function(i) {
+                        $('#sortable').append('<li class="ui-state-default" id="'+i+'">'+
+                            //'<div onClick="showData(\''+recordsObj.recordsArr[i].id+'\');">'+
+                            '<div>'+
+                              '<img alt="'+recordsObj.recordsArr[i].id+'" src="'+recordsObj.recordsArr[i].thumb+'">'+
+                            '</div>'+
+                            '<div>'+recordsObj.recordsArr[i].filename+'</div>'+
+                            '<div>'+
+                              'Current Rank: '+recordsObj.recordsArr[i].rank+
+                            '</div>'+
+                            '<div>'+
+                                'Primary: <input id="is_primary'+i+'" type="radio" name="primary" value="primary"'+' onClick="setPrimary('+i+')"/>'+
+                            '</div>'+
+                            '<div>'+
+                              'Keywords (for LOD): <input id="keywords'+i+'" type="text" name="" value="'+recordsObj.recordsArr[i].keywords+'" onchange="setKeywords(keywords'+i+'.value, '+i+')"/>'+
+                            '</div>'+
+                            '<div>'+
+                              'Caption (for Web): <input id="descCaption'+i+'" type="text" name="" value="'+recordsObj.recordsArr[i].descCaption+'" onchange="setDescCaption(descCaption'+i+'.value, '+i+')"/>'+
+                            '</div>'+
+                            '</li>');
+                        if(recordsObj.recordsArr[i].primary == "Y")
+                            $("#is_primary"+i).attr('checked', 'checked');
+                            
+                        new_position.push(i);
+                    });
+ 
+                    //if(recordsObj.primaryIdx >= 0)
+                    //    $("#is_primary"+recordsObj.primaryIdx).attr('checked', 'checked');
+
+                    new_position = $('#sortable').sortable('toArray').clean("");
+                    updateRank(new_position);
+                    //alert(new_position);
+                }
+            }
             
             //extract JSON data and display
             function parseJson(json){
                 recordsObj = json;
+                new_position = [];
+                
+                //alert(JSON.stringify(recordsObj));
+                
+                $('#searchID').val(recordsObj.search_id);
                 var search_by = "";
-                if(recordsObj.search_by == "bibid")
-                    search_by = "Orbis Bib ID = "
-                else
-                    search_by = "TMS Object ID = "
+                if(recordsObj.search_by == "bibid") {
+                    search_by = "Orbis Bib ID";
+                    $('#searchBy').val('bibid');
+                } else {
+                    search_by = "TMS Object ID";
+                    $('#searchBy').val('objectid');
+                }
+                $('#pub_onlyID').val(recordsObj.pub_only);
+
                 // specify range of CDS level here!
-                var cdsOptionsTag = makeCdsOptionsTag(0,18);
+                //var cdsOptionsTag = makeCdsOptionsTag(0,18);
                 //parse JSON only if it's not empty
                 if (recordsObj.recordsArr.length > 0)
-                {
+                {   
                     $('#caption').empty();
-                    $('#caption').append('<b>Displaying search results for '+ search_by +
-                        ' '+ recordsObj.search_id +'</b>');
+                    //$('#caption').append('<b>Displaying search results for '+ search_by +
+                    //    ' '+ recordsObj.search_id +'</b>');
                     $('#sortable').empty();
                     $('#sortable').append('<hr/>');
                     //set up each image div from json
                     $.each(recordsObj.recordsArr, function(i) {
                         $('#sortable').append('<li class="ui-state-default" id="'+i+'">'+
-                            '<div onClick="showData(\''+
-                            recordsObj.recordsArr[i].id+
-                            '\');"><img alt="'+
-                            recordsObj.recordsArr[i].id+
-                            '" src="'+recordsObj.recordsArr[i].thumb+
-                            '"></div><div><input id = "is_primary'+i+
-                            '" type="radio" name="primary" value="primary"'+
-                            'onClick = setPrimary('+i+')>primary</div>'+
-                            'CDS Level:<select id="cds_level'+i+
+                            //'<div onClick="showData(\''+recordsObj.recordsArr[i].id+'\');">'+
+                            '<div>'+
+                              '<img alt="'+recordsObj.recordsArr[i].id+'" src="'+recordsObj.recordsArr[i].thumb+'">'+
+                            '</div>'+
+                            '<div>'+recordsObj.recordsArr[i].filename+'</div>'+
+                            '<div>'+
+                              'Current Rank: '+recordsObj.recordsArr[i].rank+
+                            '</div>'+
+                            '<div>'+
+                              'Primary: <input id="is_primary'+i+'" type="radio" name="primary" value="primary"'+'onClick="setPrimary('+i+')"/>'+
+                            '</div>'+
+                            '<div>'+
+                              'Keywords (for LOD): <input id="keywords'+i+'" type="text" name="" value="'+recordsObj.recordsArr[i].keywords+'" onchange="setKeywords(keywords'+i+'.value, '+i+')"/>'+
+                            '</div>'+
+                            '<div>'+
+                              'Caption (for Web): <input id="descCaption'+i+'" type="text" name="" value="'+recordsObj.recordsArr[i].descCaption+'" onchange="setDescCaption(descCaption'+i+'.value, '+i+')"/>'+
+                            '</div>'+
+                            '</li>');
+                        if(recordsObj.recordsArr[i].primary == "Y")
+                            $("#is_primary"+i).attr('checked', 'checked');
+                        /*
+                         'CDS Level:<select id="cds_level'+i+
                             '" onchange = setCDSLevel('+i+')>'+
                             cdsOptionsTag +
-                            '</select></li>');
+                            '</select>
+                         */
                         //set the appropriate default cds level
-                        $('#cds_level'+i).val(recordsObj.recordsArr[i].cdsLevel);
+                        //$('#cds_level'+i).val(recordsObj.recordsArr[i].cdsLevel);
                         //initialize positions array with default ranks i.e 0,1,2,3...
                         new_position.push(i);
                     });
                     //check the appropriate primary radio button
-                    if(recordsObj.primaryIdx >= 0)
-                        $("#is_primary"+recordsObj.primaryIdx).attr('checked', 'checked');
+                    //if(recordsObj.primaryIdx >= 0)
+                        //$("#is_primary"+recordsObj.primaryIdx).attr('checked', 'checked');
                 }
                 else    //JSON is empty
                 {
                     $('#saveData').empty();
                     $('#sortable').empty();
                     $('#caption').empty();
-                    $('#caption').append('<b>No data in Media Manager for '+ search_by +
+                    $('#sorting').empty();
+                    $('#caption').append('<b>No data in Media Manager for '+ search_by + ' = ' +
                         ' '+ recordsObj.search_id +'</b>');
                 }
             }
@@ -267,18 +389,33 @@
         </div>
 
         <form id="getData" action="search.jsp" method="POST">
-            Search for an object: 
-            <select name="search_by">
+            <span id="big">Search</span> for an object: 
+            <select id="searchBy" name="search_by">
                 <option value="bibid">Orbis Bib ID</option>
                 <option value="objectid">TMS Object ID</option>
             </select>
-            # <input type="text" name="search_id"/>            
+            # <input type="text" id="searchID" name="search_id"/> 
+            filename contains (not used if blank): <input type="text" id="pub_onlyID" name="pub_only" value="pub"/>
             <!-- <input type="button" value="Search" onclick="getImagesJSON()"></input> -->
             <input type="submit" value="Search" onclick="showBusy()"></input>
         </form>
 
         <p id="caption" />
 
+        <div id="sorting">
+        <hr/>
+        <form>
+            <label><span id="big">Sorting</span> will NOT save, please save if you sorted manually! Sorted by:</label>
+            <select id="sort_by" onChange="sortData($(this).val());">
+                <option value="rank">Rank</option>
+                <option value="filename">Filename</option>
+                <option value="primary">Primary</option>
+                <option value="keywords">Keywords</option>
+                <option value="descCaption">Caption</option>
+            </select>
+        </form>
+        </div>
+        
         <ul id="sortable"></ul>
 
         <form id="saveData" action="#">
